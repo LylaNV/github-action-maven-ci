@@ -33,3 +33,8 @@ jobs:
                 java-version: '17'
             - name: building jar file
               run: mvn clean package
+            - name: upload jar file
+              uses: actions/upload-artifact@v6
+              with:
+                name: my-app-jar
+                path: target/*.jar
