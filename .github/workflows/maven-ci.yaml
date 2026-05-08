@@ -53,3 +53,5 @@ jobs:
                 name: my-app-jar
             - name: list my artifacts
               run: ls
+            - name: getting artifact name from build job
+              run: echo ${{ needs.build.outputs.artifact_data }}
