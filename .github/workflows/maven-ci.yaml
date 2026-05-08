@@ -22,6 +22,8 @@ jobs:
         needs: test
         name: building maven
         runs-on: ubuntu-latest
+        outputs:
+            artifact_data: ${{ steps.artifact_name.outputs.artifact_data }}
         steps:
             - name: get source code
               uses: actions/checkout@v6
@@ -37,6 +39,9 @@ jobs:
               with:
                 name: my-app-jar
                 path: target/*.jar
+            - name: Get the name of the output file
+              id: artifact_name
+              run: find target/*.jar -type f -execdir echo 'artifact_data={}' >> $GITHUB_OUTPUT ';'
     deploy:
         needs: build
         name: taking jar file and deploying
@@ -48,4 +53,3 @@ jobs:
                 name: my-app-jar
             - name: list my artifacts
               run: ls
-              
