@@ -38,21 +38,14 @@ jobs:
                 name: my-app-jar
                 path: target/*.jar
     deploy:
-        needs: test
-        name: building maven
+        needs: build
+        name: taking jar file and deploying
         runs-on: ubuntu-latest
         steps:
-            - name: get source code
-              uses: actions/checkout@v6
-            - name: set up JDK 17
-              uses: actions/setup-java@v5
-              with:
-                distribution: 'temurin'
-                java-version: '17'
-            - name: building jar file
-              run: mvn clean package
-            - name: upload jar file
-              uses: actions/upload-artifact@v6
+            - name: get artifacts data from build job
+              uses: actions/download-artifact@v7
               with:
                 name: my-app-jar
-                path: target/*.jar
+            - name: list my artifacts
+              run: ls
+              
